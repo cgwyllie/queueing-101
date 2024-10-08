@@ -1,55 +1,63 @@
-const { SQSClient, ReceiveMessageCommand, DeleteMessageCommand } = require("@aws-sdk/client-sqs");
+const { SQSClient, ReceiveMessageCommand, DeleteMessageCommand } = require("@aws-sdk/client-sqs")
+const { Calculator, Point } = require('./calculator')
 
 const sqsClient = new SQSClient({
-    region: process.env.AWS_REGION,
-    endpoint: "http://sqs:9324",
+    region: "us-east-1",
+    endpoint: "http://localhost:9324",
     credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        accessKeyId: "dummy",
+        secretAccessKey: "dummy",
     },
-});
+})
 
-const queueUrl = process.env.SQS_QUEUE_URL;
+const consumerCalculator = new Calculator()
+
+const queue = {
+    url: "http://localhost:9324/queue/workshop-queue"
+}
 
 async function acknowledgeMessage(message) {
     const deleteParams = {
-        QueueUrl: queueUrl,
+        QueueUrl: queue.url,
         ReceiptHandle: message.ReceiptHandle,
-    };
+    }
 
-    await sqsClient.send(new DeleteMessageCommand(deleteParams));
+    await sqsClient.send(new DeleteMessageCommand(deleteParams))
 }
 
 async function getMessages() {
     const params = {
-        QueueUrl: queueUrl,
+        QueueUrl: queue.url,
         MaxNumberOfMessages: 1,
-        WaitTimeSeconds: 20,
-    };
+        WaitTimeSeconds: 10,
+    }
 
     try {
-        const data = await sqsClient.send(new ReceiveMessageCommand(params));
+        const data = await sqsClient.send(new ReceiveMessageCommand(params))
         if (data.Messages) {
-            return data.Messages;
+            return data.Messages
         }
-        return [];
+        return []
     } catch (err) {
-        console.error("Error receiving message:", err);
-        return [];
+        console.error("Error receiving message:", err)
+        return []
     }
 }
 
 async function pollQueue() {
+    const messages = await getMessages()
 
-    const messages = await getMessages();
-
-    for (const message of messages) {
-        console.log("Received message:", message.Body);
+    if (messages.length === 0) {
+        console.log("Current calculator value:", consumerCalculator.calculate)
     }
 
-    // Continue polling
-    pollQueue();
+    for (const message of messages) {
+
+        console.log("Received message:", new_msg)
+    }
+
+    pollQueue()
 }
 
-console.log("Consumer started. Waiting for messages...");
-pollQueue();
+console.log("Consumer started. Waiting for messages...")
+pollQueue()

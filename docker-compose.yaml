@@ -17,6 +17,6 @@ services:
       - AWS_SECRET_ACCESS_KEY=dummy
       - AWS_REGION=us-east-1
       - SQS_QUEUE_URL=http://sqs:9324/queue/workshop-queue
-      - INPUT_FILE=/app/input.json
+      - INPUT_FILE=/app/inputs/ack.json
     volumes:
-      - ./input.json:/app/input.json
+      - ./inputs:/app/inputs
