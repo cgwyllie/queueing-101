@@ -11,26 +11,16 @@ const sqsClient = new SQSClient({
 
 const queueUrl = process.env.SQS_QUEUE_URL;
 
-async function processMessage(message) {
-    console.log("Received message:", message.Body);
-
-    // Process the message here
-
-    // Delete the message from the queue
+async function acknowledgeMessage(message) {
     const deleteParams = {
         QueueUrl: queueUrl,
         ReceiptHandle: message.ReceiptHandle,
     };
 
-    try {
-        await sqsClient.send(new DeleteMessageCommand(deleteParams));
-        console.log("Message deleted successfully");
-    } catch (err) {
-        console.error("Error deleting message:", err);
-    }
+    await sqsClient.send(new DeleteMessageCommand(deleteParams));
 }
 
-async function pollQueue() {
+async function getMessages() {
     const params = {
         QueueUrl: queueUrl,
         MaxNumberOfMessages: 1,
@@ -40,12 +30,21 @@ async function pollQueue() {
     try {
         const data = await sqsClient.send(new ReceiveMessageCommand(params));
         if (data.Messages) {
-            for (const message of data.Messages) {
-                await processMessage(message);
-            }
+            return data.Messages;
         }
+        return [];
     } catch (err) {
         console.error("Error receiving message:", err);
+        return [];
+    }
+}
+
+async function pollQueue() {
+
+    const messages = await getMessages();
+
+    for (const message of messages) {
+        console.log("Received message:", message.Body);
     }
 
     // Continue polling
