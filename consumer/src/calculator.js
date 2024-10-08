@@ -5,6 +5,23 @@ class Calculator {
         this.#value = value
     }
 
+    use_operation(operation, value) {
+        switch (operation) {
+            case "add":
+                this.add(value)
+                break
+            case "subtract":
+                this.subtract(value)
+                break
+            case "multiply":
+                this.multiply(value)
+                break
+            default:
+                console.error("invalid calculator operation")
+
+        }
+    }
+
     get calculate() {
         return this.#value
     }

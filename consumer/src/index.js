@@ -44,16 +44,14 @@ async function getMessages() {
     }
 }
 
+
+
 async function pollQueue() {
     const messages = await getMessages()
 
-    if (messages.length === 0) {
-        console.log("Current calculator value:", consumerCalculator.calculate)
-    }
-
     for (const message of messages) {
 
-        console.log("Received message:", new_msg)
+        console.log("Received message:", message)
     }
 
     pollQueue()
