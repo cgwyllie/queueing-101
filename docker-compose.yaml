@@ -8,16 +8,6 @@ services:
     volumes:
       - ./elasticmq.conf:/opt/elasticmq.conf
 
-  consumer:
-    build: ./consumer
-    depends_on:
-      - sqs
-    environment:
-      - AWS_ACCESS_KEY_ID=dummy
-      - AWS_SECRET_ACCESS_KEY=dummy
-      - AWS_REGION=us-east-1
-      - SQS_QUEUE_URL=http://sqs:9324/queue/workshop-queue
-
   producer:
     build: ./producer
     depends_on:
@@ -27,3 +17,6 @@ services:
       - AWS_SECRET_ACCESS_KEY=dummy
       - AWS_REGION=us-east-1
       - SQS_QUEUE_URL=http://sqs:9324/queue/workshop-queue
+      - INPUT_FILE=/app/input.json
+    volumes:
+      - ./input.json:/app/input.json
