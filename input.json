@@ -1,0 +1,72 @@
+[
+    {
+        "data": {
+            "key": "550e8400-e29b-41d4-a716-446655440000",
+            "value": 42
+        },
+        "msg_id": "msg-001"
+    },
+    {
+        "data": {
+            "key": "6ba7b810-9dad-11d1-80b4-00c04fd430c8",
+            "value": 17
+        },
+        "msg_id": "msg-002"
+    },
+    {
+        "data": {
+            "key": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+            "value": 88
+        },
+        "msg_id": "msg-003"
+    },
+    {
+        "data": {
+            "key": "8f14e45f-ceea-467a-9575-6c9b6d44b32c",
+            "value": 3
+        },
+        "msg_id": "msg-004"
+    },
+    {
+        "data": {
+            "key": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+            "value": 61
+        },
+        "msg_id": "msg-005"
+    },
+    {
+        "data": {
+            "key": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+            "value": 29
+        },
+        "msg_id": "msg-006"
+    },
+    {
+        "data": {
+            "key": "b07a6c3c-5758-4963-8821-5d3c9db3e409",
+            "value": 75
+        },
+        "msg_id": "msg-007"
+    },
+    {
+        "data": {
+            "key": "c2727b5f-eee0-4e65-8c01-2a26b5c2a9e7",
+            "value": 52
+        },
+        "msg_id": "msg-008"
+    },
+    {
+        "data": {
+            "key": "d1a70d8f-0859-4eab-8f5c-5859b6f7e7e7",
+            "value": 94
+        },
+        "msg_id": "msg-009"
+    },
+    {
+        "data": {
+            "key": "e0e8f0f0-e0e8-4f0f-a0a8-8f0f0f0f0f0f",
+            "value": 10
+        },
+        "msg_id": "msg-010"
+    }
+]
