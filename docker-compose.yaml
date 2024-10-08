@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  sqs:
+    image: softwaremill/elasticmq-native
+    ports:
+      - "9324:9324"
+      - "9325:9325"
+    volumes:
+      - ./elasticmq.conf:/opt/elasticmq.conf
+
+  consumer:
+    build: ./consumer
+    depends_on:
+      - sqs
+    environment:
+      - AWS_ACCESS_KEY_ID=dummy
+      - AWS_SECRET_ACCESS_KEY=dummy
+      - AWS_REGION=us-east-1
+      - SQS_QUEUE_URL=http://sqs:9324/queue/workshop-queue
+
+  producer:
+    build: ./producer
+    depends_on:
+      - sqs
+    environment:
+      - AWS_ACCESS_KEY_ID=dummy
+      - AWS_SECRET_ACCESS_KEY=dummy
+      - AWS_REGION=us-east-1
+      - SQS_QUEUE_URL=http://sqs:9324/queue/workshop-queue
