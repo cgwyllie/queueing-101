@@ -5,13 +5,17 @@ const { acknowledgeMessage, getMessages } = require("./queue");
 const consumerCalculator = new Calculator();
 
 async function pollQueue() {
-    const messages = await getMessages();
+  const messages = await getMessages();
 
-    for (const message of messages) {
-        console.log("Received message:", message);
-    }
+  for (const message of messages) {
+    console.log("Received message:", message);
 
-    pollQueue();
+    // Parse the message body
+    // Do some calculations
+    // Output some results to console?
+  }
+
+  pollQueue();
 }
 
 console.log("Consumer started. Waiting for messages...");
