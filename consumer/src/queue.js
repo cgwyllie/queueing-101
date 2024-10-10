@@ -14,12 +14,13 @@ const sqsClient = new SQSClient({
 });
 
 const queue = {
-  url: "http://localhost:9324/queue/workshop-queue",
+  get_url: "http://localhost:9324/queue/workshop-queue",
+  send_url: "http://localhost:9324/queue/workshop-result-queue",
 };
 
 async function acknowledgeMessage(message) {
   const deleteParams = {
-    QueueUrl: queue.url,
+    QueueUrl: queue.get_url,
     ReceiptHandle: message.ReceiptHandle,
   };
 
@@ -28,7 +29,7 @@ async function acknowledgeMessage(message) {
 
 async function getMessages() {
   const params = {
-    QueueUrl: queue.url,
+    QueueUrl: queue.get_url,
     MaxNumberOfMessages: 1,
     WaitTimeSeconds: 10,
   };
@@ -45,4 +46,26 @@ async function getMessages() {
   }
 }
 
-module.exports = { acknowledgeMessage, getMessages };
+async function sendMessage(messageData, messageId) {
+  const params = {
+    QueueUrl: queue.send_url,
+    MessageBody: JSON.stringify(messageData),
+    MessageAttributes: {
+      MessageId: {
+        DataType: "String",
+        StringValue: messageId,
+      },
+    },
+  };
+
+  try {
+    const data = await sqsClient.send(new SendMessageCommand(params));
+    console.log(
+      `Message sent successfully: ${messageId}, SQS MessageId: ${data.MessageId}`
+    );
+  } catch (err) {
+    console.error(`Error sending message ${messageId}:`, err);
+  }
+}
+
+module.exports = { acknowledgeMessage, getMessages, sendMessage };
