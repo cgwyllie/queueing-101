@@ -7,9 +7,28 @@
 
 ## Getting started
 
+### Installing the node modules for the consumer
+
+The consumer is a Node.js app, so we should install the dependencies to get started.
+
+```sh
+cd consumer
+npm ci
+```
+
+Test the consumer by running the start command in your console:
+
+```sh
+npm start
+```
+
+When working through scenarios, you will be editing the file `consumer/src/index.js` and starting/stopping the consumer program after publishing messages to work with. Try this a few times to become comfortable with it.
+
+> Note the consumer won't hot reload when you edit the file
+
 ### Bring up the queue
 
-Run the following command to brin up the queue, ready to accept messages
+Run the following command to bring up the queue, ready to accept messages
 
 ```sh
 docker compose up sqs
