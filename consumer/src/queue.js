@@ -16,6 +16,7 @@ const sqsClient = new SQSClient({
 const queue = {
   get_url: "http://localhost:9324/queue/workshop-queue",
   send_url: "http://localhost:9324/queue/workshop-result-queue",
+  dlq: "http://localhost:9324/queue/workshop-dlq"
 };
 
 async function acknowledgeMessage(message) {
@@ -47,8 +48,16 @@ async function getMessages() {
 }
 
 async function sendMessage(messageData, messageId) {
+  await sendMessageToQueue(messageData, messageId, queue.send_url)
+}
+
+async function sendMessageToDlq(messageData, messageId) {
+  await sendMessageToQueue(messageData, messageId, queue.dlq)
+}
+
+async function sendMessageToQueue(messageData, messageId, queue) {
   const params = {
-    QueueUrl: queue.send_url,
+    QueueUrl: queue,
     MessageBody: JSON.stringify(messageData),
     MessageAttributes: {
       MessageId: {
@@ -61,11 +70,11 @@ async function sendMessage(messageData, messageId) {
   try {
     const data = await sqsClient.send(new SendMessageCommand(params));
     console.log(
-      `Message sent successfully: ${messageId}, SQS MessageId: ${data.MessageId}`
+      `Message sent successfully: ${messageId}, SQS MessageId: ${data.MessageId}, Queue: ${queue}`
     );
   } catch (err) {
     console.error(`Error sending message ${messageId}:`, err);
   }
 }
 
-module.exports = { acknowledgeMessage, getMessages, sendMessage };
+module.exports = { acknowledgeMessage, getMessages, sendMessage, sendMessageToDlq };
