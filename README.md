@@ -11,8 +11,23 @@ docker compose up sqs
 
 ### Running through scenarios
 
-The acknowledgement scenario
+#### The acknowledgement scenario
 
+Getting the events
 ```sh
 docker compose run --env INPUT_FILE=/app/inputs/ack.json producer
+```
+
+#### The duplicates scenario
+
+Getting the events
+```sh
+docker compose run --env INPUT_FILE=/app/inputs/dupes.json producer
+```
+
+#### The new type scenario
+
+Getting the events
+```sh
+docker compose run --env INPUT_FILE=/app/inputs/unprocessable.json producer
 ```
